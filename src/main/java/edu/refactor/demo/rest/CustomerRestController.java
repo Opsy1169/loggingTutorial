@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.springframework.http.HttpMethod.GET;
@@ -44,7 +45,7 @@ public class CustomerRestController {
     public @ResponseBody
     ResponseEntity<Customer> getCustomer(@PathVariable Long id) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Start getCustomer with id {}", id);
+            LOG.debug("Start getCustomer with id = {}", id);
         }
         return ResponseEntity.ok(customerService.getCustomerById(id));
     }
@@ -53,7 +54,7 @@ public class CustomerRestController {
     public @ResponseBody
     ResponseEntity<Customer> create(@RequestBody Customer customer) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Start create for customer with email = {} and login = {}", customer.getEmail(), customer.getLogin());
+            LOG.debug("Start create customer {}", customer);
         }
         Customer newCustomer = customerService.createCustomer(customer);
         UriComponents uriComponents =

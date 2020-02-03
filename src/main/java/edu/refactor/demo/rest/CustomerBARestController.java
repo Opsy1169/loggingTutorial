@@ -42,7 +42,7 @@ public class CustomerBARestController {
     ResponseEntity<BillingAccount> billingAccountForCustomer(@PathVariable(name = "id") Long id,
                                                              @PathVariable(name = "baId") Long baId) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Start loadAllBAForCustomer for customer with id = {}", id);
+            LOG.debug("Start loadAllBAForCustomer for customer with id = {}, baId = {}", id, baId);
         }
         return ResponseEntity.ok(customerService.billingAccountForCustomer(id, baId));
     }
@@ -51,7 +51,7 @@ public class CustomerBARestController {
     public @ResponseBody
     ResponseEntity<BillingAccount> create(@PathVariable Long id, @RequestBody BillingAccount billingAccount) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Start create for billingAccount for customer {}", id);
+            LOG.debug("Start create for billingAccount {} for customer {}", billingAccount, id);
         }
         BillingAccount newBillingAccount = customerService.createBAForCustomer(billingAccount, id);
         UriComponents uriComponents = UriComponentsBuilder.newInstance()

@@ -101,4 +101,15 @@ public class Customer implements Serializable {
     public List<BillingAccount> getBillingAccounts() {
         return billingAccounts;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "category='" + category + '\'' +
+                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", registration=" + registration +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

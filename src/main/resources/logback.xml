@@ -98,6 +98,7 @@
 
     <root level="WARN">
         <appender-ref ref="FILE-AUDIT"/>
+        <appender-ref ref="WARNING-EXCEPTION"/>
     </root>
     <logger name="edu.refactor.demo.rest"  level="debug" additivity="false">
         <appender-ref ref="DEBUG-INFO-REST" />

@@ -64,4 +64,13 @@ public class BillingAccount implements Serializable {
     public void setCreatedDate(Instant createdDate) {
         this.createdDate = createdDate;
     }
+
+    @Override
+    public String toString() {
+        return "BillingAccount{" +
+                "isPrimary=" + isPrimary +
+                ", createdDate=" + createdDate +
+                ", money=" + money +
+                '}';
+    }
 }

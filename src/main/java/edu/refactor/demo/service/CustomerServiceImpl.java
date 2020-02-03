@@ -42,6 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public List<BillingAccount> billingAccounts(Long id) {
+
         Optional<Customer> customer = customerDAO.findById(id);
         if(!customer.isPresent()) {
             CustomerNotFoundException exc = new CustomerNotFoundException("Customer doesn't exist");
@@ -52,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @Transactional
+    @org.springframework.transaction.annotation.Transactional
     public Customer createCustomer(Customer customer) {
         if (customerDAO.findCustomerByLoginAndEmail(customer.getLogin(), customer.getEmail()) != null) {
             CustomerUniqueCredentialsException exception = new CustomerUniqueCredentialsException("Create customer error");
@@ -67,7 +68,11 @@ public class CustomerServiceImpl implements CustomerService {
         billingAccount.setPrimary(true);
         newCustomer.getBillingAccounts().add(billingAccount);
         billingAccount.setCustomer(newCustomer);
-        billingAccountDAO.save(billingAccount);
+
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Customer {} has been created", newCustomer);
+        }
         return newCustomer;
     }
 
@@ -97,7 +102,7 @@ public class CustomerServiceImpl implements CustomerService {
                                                     .stream().filter(e -> e.getId().equals(baId)).findFirst();
         if(!billingAccount.isPresent()) {
             BillingAccountNotFoundException exception = new BillingAccountNotFoundException("BillingAccount doesn't exist");
-            LOG.error("Customer with {} id doesn't have billing account with {} id", id, baId, exception);
+            LOG.error("Customer with id = {} doesn't have billing account with id = {} ", id, baId, exception);
             throw exception;
         }
         return billingAccount.get();
@@ -113,6 +118,10 @@ public class CustomerServiceImpl implements CustomerService {
             throw exception;
         }
         billingAccount.setCustomer(customer.get());
-        return billingAccountDAO.save(billingAccount);
+        billingAccountDAO.save(billingAccount);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Billing account {} for customer with id = {} has been created", billingAccount, id);
+        }
+        return billingAccount;
     }
 }
