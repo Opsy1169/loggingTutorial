@@ -1,0 +1,15 @@
+2020-02-03 17:33:33 - CustomerRestController Start getAll debug
+2020-02-03 17:33:33 - CustomerRestController Start getAll info
+2020-02-03 17:33:33 - Start getAll
+2020-02-03 18:03:20 [http-nio-8080-exec-2] DEBUG CustomerRestController  - Start getAll
+2020-02-03 18:05:33 [http-nio-8080-exec-2] DEBUG CustomerRestController  - Start getAll
+2020-02-03 18:09:49 [http-nio-8080-exec-2] DEBUG CustomerBARestController  - Start loadAllBAForCustomer for customer with id = 1
+2020-02-03 18:18:06 [http-nio-8080-exec-6] DEBUG CustomerBARestController  - Start loadAllBAForCustomer for customer with id = 10
+2020-02-03 18:26:17 [http-nio-8080-exec-6] DEBUG CustomerBARestController  - Start loadAllBAForCustomer for customer with id = 10
+2020-02-03 18:26:35 [http-nio-8080-exec-1] DEBUG CustomerBARestController  - Start loadAllBAForCustomer for customer with id = 10
+2020-02-03 18:26:37 [http-nio-8080-exec-9] DEBUG CustomerBARestController  - Start loadAllBAForCustomer for customer with id = 10
+2020-02-03 18:26:54 [http-nio-8080-exec-1] DEBUG CustomerBARestController  - Start loadAllBAForCustomer for customer with id = 1
+2020-02-03 19:08:52 [http-nio-8080-exec-1] DEBUG CustomerRestController  - Start create for customer with email = 1@mail.com and login = opsy
+2020-02-03 19:26:42 [http-nio-8080-exec-2] DEBUG CustomerBARestController  - Start loadAllBAForCustomer for customer with id = 1
+2020-02-03 19:27:27 [http-nio-8080-exec-7] DEBUG CustomerBARestController  - Start loadAllBAForCustomer for customer with id = 10
+2020-02-03 19:28:12 [http-nio-8080-exec-4] DEBUG CustomerBARestController  - Start loadAllBAForCustomer for customer with id = 10
