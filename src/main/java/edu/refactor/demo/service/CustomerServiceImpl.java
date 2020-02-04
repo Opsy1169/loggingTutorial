@@ -50,9 +50,8 @@ public class CustomerServiceImpl implements CustomerService {
         }
         Optional<Customer> customer = customerDAO.findById(id);
         if(!customer.isPresent()) {
-            CustomerNotFoundException exc = new CustomerNotFoundException("Customer doesn't exist");
-            LOG.error("Customer with id = {} was not found", id, exc);
-            throw exc;
+            LOG.error("Customer with id = {} was not found", id);
+            throw  new CustomerNotFoundException("Customer doesn't exist");
         }
         return customer.get().getBillingAccounts();
     }
@@ -64,9 +63,8 @@ public class CustomerServiceImpl implements CustomerService {
             LOG.debug("Start createCustomer");
         }
         if (customerDAO.findCustomerByLoginAndEmail(customer.getLogin(), customer.getEmail()) != null) {
-            CustomerUniqueCredentialsException exception = new CustomerUniqueCredentialsException("Create customer error");
-            LOG.error("Customer with given credentials already exists", exception);
-            throw exception;
+            LOG.error("Customer with given credentials already exists");
+            throw new CustomerUniqueCredentialsException("Create customer error");
         }
         Customer newCustomer = new Customer().copyFrom(customer);
         newCustomer = customerDAO.save(newCustomer);
@@ -91,9 +89,8 @@ public class CustomerServiceImpl implements CustomerService {
         }
         Optional<Customer> customer = customerDAO.findById(id);
         if(!customer.isPresent()) {
-            CustomerNotFoundException exception = new CustomerNotFoundException("Customer doesn't exist");
-            LOG.error("Customer with id = {} was not found", id, exception);
-            throw exception;
+            LOG.error("Customer with id = {} was not found", id);
+            throw new CustomerNotFoundException("Customer doesn't exist");
         }
         return customer.get();
     }
@@ -106,17 +103,15 @@ public class CustomerServiceImpl implements CustomerService {
         }
         Optional<Customer> customer = customerDAO.findById(id);
         if(!customer.isPresent()) {
-            CustomerNotFoundException exception = new CustomerNotFoundException("Customer doesn't exist");
-            LOG.error("Customer with id = {} was not found", id, exception);
-            throw exception;
+            LOG.error("Customer with id = {} was not found", id);
+            throw new CustomerNotFoundException("Customer doesn't exist");
         }
 
         Optional<BillingAccount> billingAccount = customer.get().getBillingAccounts()
                                                     .stream().filter(e -> e.getId().equals(baId)).findFirst();
         if(!billingAccount.isPresent()) {
-            BillingAccountNotFoundException exception = new BillingAccountNotFoundException("BillingAccount doesn't exist");
-            LOG.error("Customer with id = {} doesn't have billing account with id = {} ", id, baId, exception);
-            throw exception;
+            LOG.error("Customer with id = {} doesn't have billing account with id = {} ", id, baId);
+            throw new BillingAccountNotFoundException("BillingAccount doesn't exist");
         }
         return billingAccount.get();
     }
@@ -129,9 +124,8 @@ public class CustomerServiceImpl implements CustomerService {
         }
         Optional<Customer> customer = customerDAO.findById(id);
         if(!customer.isPresent()) {
-            CustomerNotFoundException exception = new CustomerNotFoundException("Customer doesn't exist");
-            LOG.error("Customer with id = {} was not found", id, exception);
-            throw exception;
+            LOG.error("Customer with id = {} was not found", id);
+            throw new CustomerNotFoundException("Customer doesn't exist");
         }
         billingAccount.setCustomer(customer.get());
         billingAccountDAO.save(billingAccount);
