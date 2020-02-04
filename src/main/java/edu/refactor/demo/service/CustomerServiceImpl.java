@@ -57,13 +57,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     public Customer createCustomer(Customer customer) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Start createCustomer");
         }
         if (customerDAO.findCustomerByLoginAndEmail(customer.getLogin(), customer.getEmail()) != null) {
-            LOG.error("Customer with given credentials already exists");
+            LOG.error("Customer with login = {} already exists", customer.getLogin());
             throw new CustomerUniqueCredentialsException("Create customer error");
         }
         Customer newCustomer = new Customer().copyFrom(customer);
