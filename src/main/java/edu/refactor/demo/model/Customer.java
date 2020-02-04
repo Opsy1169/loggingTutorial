@@ -106,8 +106,6 @@ public class Customer implements Serializable {
     public String toString() {
         return "Customer{" +
                 "category='" + category + '\'' +
-                ", login='" + login + '\'' +
-                ", email='" + email + '\'' +
                 ", registration=" + registration +
                 ", status='" + status + '\'' +
                 '}';

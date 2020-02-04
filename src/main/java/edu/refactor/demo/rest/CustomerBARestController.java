@@ -54,6 +54,9 @@ public class CustomerBARestController {
             LOG.debug("Start create for billingAccount {} for customer {}", billingAccount, id);
         }
         BillingAccount newBillingAccount = customerService.createBAForCustomer(billingAccount, id);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Billing account {} for customer with id = {} has been created", billingAccount, id);
+        }
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .path("/customer/{id}/ba/{baId}/")
                 .buildAndExpand(id, newBillingAccount.getId());

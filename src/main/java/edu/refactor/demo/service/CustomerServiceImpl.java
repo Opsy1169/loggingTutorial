@@ -24,7 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final BillingAccountDAO billingAccountDAO;
 
-    private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
 
     @Autowired
@@ -36,13 +36,18 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public List<Customer> getAllCustomers() {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start getAllCustomers");
+        }
         return customerDAO.findCustomerByStatusNotLike("delete");
     }
 
     @Override
     @Transactional
     public List<BillingAccount> billingAccounts(Long id) {
-
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start billingAccounts for customer with id = {}", id);
+        }
         Optional<Customer> customer = customerDAO.findById(id);
         if(!customer.isPresent()) {
             CustomerNotFoundException exc = new CustomerNotFoundException("Customer doesn't exist");
@@ -55,14 +60,19 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @org.springframework.transaction.annotation.Transactional
     public Customer createCustomer(Customer customer) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start createCustomer");
+        }
         if (customerDAO.findCustomerByLoginAndEmail(customer.getLogin(), customer.getEmail()) != null) {
             CustomerUniqueCredentialsException exception = new CustomerUniqueCredentialsException("Create customer error");
-            LOG.error("Customer with given email and login ({}, {}) already exists",
-                    customer.getEmail(), customer.getLogin(), exception);
+            LOG.error("Customer with given credentials already exists", exception);
             throw exception;
         }
         Customer newCustomer = new Customer().copyFrom(customer);
         newCustomer = customerDAO.save(newCustomer);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start creating billing account for new customer");
+        }
         BillingAccount billingAccount = new BillingAccount();
         billingAccount.setMoney(100);
         billingAccount.setPrimary(true);
@@ -70,15 +80,15 @@ public class CustomerServiceImpl implements CustomerService {
         billingAccount.setCustomer(newCustomer);
 
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Customer {} has been created", newCustomer);
-        }
         return newCustomer;
     }
 
     @Override
     @Transactional
     public Customer getCustomerById(Long id) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start getCustomerById for customer with id = {}", id);
+        }
         Optional<Customer> customer = customerDAO.findById(id);
         if(!customer.isPresent()) {
             CustomerNotFoundException exception = new CustomerNotFoundException("Customer doesn't exist");
@@ -91,6 +101,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public BillingAccount billingAccountForCustomer(Long id, Long baId) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start billingAccountForCustomer for customer with id = {}, baId = {}", id, baId);
+        }
         Optional<Customer> customer = customerDAO.findById(id);
         if(!customer.isPresent()) {
             CustomerNotFoundException exception = new CustomerNotFoundException("Customer doesn't exist");
@@ -111,6 +124,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public BillingAccount createBAForCustomer(BillingAccount billingAccount, Long id) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start createBAForCustomer for customer with id = {}", id);
+        }
         Optional<Customer> customer = customerDAO.findById(id);
         if(!customer.isPresent()) {
             CustomerNotFoundException exception = new CustomerNotFoundException("Customer doesn't exist");
@@ -119,9 +135,6 @@ public class CustomerServiceImpl implements CustomerService {
         }
         billingAccount.setCustomer(customer.get());
         billingAccountDAO.save(billingAccount);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Billing account {} for customer with id = {} has been created", billingAccount, id);
-        }
         return billingAccount;
     }
 }

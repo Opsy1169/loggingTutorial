@@ -2,10 +2,19 @@
 
     <appender name="FILE-AUDIT"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.classic.boolex.GEventEvaluator">
+                <expression>
+                    e.level.toInt() >= DEBUG.toInt()  &amp;&amp;  INFO.toInt() >= e.level.toInt()
+                </expression>
+            </evaluator>
+            <OnMismatch>DENY</OnMismatch>
+            <OnMatch>ACCEPT</OnMatch>
+        </filter>
         <file>AUDIT.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss}  %-5level - %msg%n
             </Pattern>
         </encoder>
 
@@ -100,6 +109,9 @@
         <appender-ref ref="FILE-AUDIT"/>
         <appender-ref ref="WARNING-EXCEPTION"/>
     </root>
+    <logger name="edu.refactor.demo" level="debug" additivity="false">
+        <appender-ref ref="FILE-AUDIT"/>
+    </logger>
     <logger name="edu.refactor.demo.rest"  level="debug" additivity="false">
         <appender-ref ref="DEBUG-INFO-REST" />
         <appender-ref ref="WARNING-EXCEPTION"/>

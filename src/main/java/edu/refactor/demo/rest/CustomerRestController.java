@@ -54,12 +54,15 @@ public class CustomerRestController {
     public @ResponseBody
     ResponseEntity<Customer> create(@RequestBody Customer customer) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Start create customer {}", customer);
+            LOG.debug("Start create customer");
         }
         Customer newCustomer = customerService.createCustomer(customer);
         UriComponents uriComponents =
                 UriComponentsBuilder.newInstance().path("/customer/{id}/").buildAndExpand(newCustomer.getId());
 
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Customer with id =  {} has been created", newCustomer.getId());
+        }
         return ResponseEntity.created(uriComponents.toUri()).body(newCustomer);
     }
 }
