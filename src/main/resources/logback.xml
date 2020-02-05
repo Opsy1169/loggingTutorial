@@ -111,13 +111,12 @@
     </root>
     <logger name="edu.refactor.demo" level="debug" additivity="false">
         <appender-ref ref="FILE-AUDIT"/>
-        <appender-ref ref="WARNING-EXCEPTION"/>
     </logger>
     <logger name="edu.refactor.demo.rest"  level="debug" additivity="false">
         <appender-ref ref="DEBUG-INFO-REST" />
 
     </logger>
-    <logger name="edu.refactor.demo.service" level="all" additivity="false">
+    <logger name="edu.refactor.demo.service" level="debug" additivity="false">
         <appender-ref ref="DEBUG-INFO-SERVICE" />
 
     </logger>
